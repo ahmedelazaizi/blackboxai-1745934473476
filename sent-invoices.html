@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>عرض الفواتير المرسلة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6 bg-gray-50">
+  <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-md p-8">
+    <header class="mb-8 border-b border-gray-300 pb-4 text-right">
+      <h1 class="text-2xl font-bold text-gray-800">عرض الفواتير المرسلة</h1>
+      <p class="text-gray-600 mt-1">تصفية الفواتير حسب التاريخ أو أرقام الفواتير</p>
+    </header>
+
+    <section class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-right">
+      <div>
+        <label for="filterDateFrom" class="block mb-1 font-semibold text-gray-700">من تاريخ</label>
+        <input
+          type="date"
+          id="filterDateFrom"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <label for="filterDateTo" class="block mb-1 font-semibold text-gray-700">إلى تاريخ</label>
+        <input
+          type="date"
+          id="filterDateTo"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <label for="filterInvoiceFrom" class="block mb-1 font-semibold text-gray-700">من رقم الفاتورة</label>
+        <input
+          type="text"
+          id="filterInvoiceFrom"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="رقم الفاتورة من"
+        />
+      </div>
+      <div>
+        <label for="filterInvoiceTo" class="block mb-1 font-semibold text-gray-700">إلى رقم الفاتورة</label>
+        <input
+          type="text"
+          id="filterInvoiceTo"
+          class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="رقم الفاتورة إلى"
+        />
+      </div>
+    </section>
+
+    <section>
+      <button
+        type="button"
+        id="filterBtn"
+        class="mb-4 inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
+      >
+        <i class="fas fa-filter"></i> تصفية
+      </button>
+
+      <table class="w-full border border-gray-300 rounded-md overflow-hidden">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="p-3 border border-gray-300 text-center">رقم الفاتورة</th>
+            <th class="p-3 border border-gray-300 text-center">تاريخ الفاتورة</th>
+            <th class="p-3 border border-gray-300 text-center">اسم العميل</th>
+            <th class="p-3 border border-gray-300 text-center">رقم التسجيل الضريبي / الرقم القومي</th>
+            <th class="p-3 border border-gray-300 text-center">عنوان العميل</th>
+            <th class="p-3 border border-gray-300 text-center">نوع المستند</th>
+          </tr>
+        </thead>
+        <tbody id="sentInvoicesBody">
+          <!-- Sent invoices will be displayed here -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    const mockSentInvoices = [
+      {
+        invoiceNumber: '1001',
+        invoiceDate: '2025-04-20',
+        customerName: 'عميل 1001',
+        taxRegistration: 'TRN1001',
+        customerAddress: 'عنوان العميل 1001',
+        documentType: 'فاتورة',
+      },
+      {
+        invoiceNumber: '1002',
+        invoiceDate: '2025-04-21',
+        customerName: 'عميل 1002',
+        taxRegistration: 'TRN1002',
+        customerAddress: 'عنوان العميل 1002',
+        documentType: 'اشعار دائن',
+      },
+      {
+        invoiceNumber: '1003',
+        invoiceDate: '2025-04-22',
+        customerName: 'عميل 1003',
+        taxRegistration: 'TRN1003',
+        customerAddress: 'عنوان العميل 1003',
+        documentType: 'فاتورة',
+      },
+    ];
+
+    function renderInvoices(invoices) {
+      const tbody = document.getElementById('sentInvoicesBody');
+      tbody.innerHTML = '';
+      invoices.forEach(inv => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-3 border border-gray-300 text-center">${inv.invoiceNumber}</td>
+          <td class="p-3 border border-gray-300 text-center">${inv.invoiceDate}</td>
+          <td class="p-3 border border-gray-300 text-center">${inv.customerName}</td>
+          <td class="p-3 border border-gray-300 text-center">${inv.taxRegistration}</td>
+          <td class="p-3 border border-gray-300 text-center">${inv.customerAddress}</td>
+          <td class="p-3 border border-gray-300 text-center">${inv.documentType}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('filterBtn').addEventListener('click', () => {
+      const dateFrom = document.getElementById('filterDateFrom').value;
+      const dateTo = document.getElementById('filterDateTo').value;
+      const invoiceFrom = document.getElementById('filterInvoiceFrom').value.trim();
+      const invoiceTo = document.getElementById('filterInvoiceTo').value.trim();
+
+      let filtered = mockSentInvoices;
+
+      if (dateFrom) {
+        filtered = filtered.filter(inv => inv.invoiceDate >= dateFrom);
+      }
+      if (dateTo) {
+        filtered = filtered.filter(inv => inv.invoiceDate <= dateTo);
+      }
+      if (invoiceFrom) {
+        filtered = filtered.filter(inv => inv.invoiceNumber >= invoiceFrom);
+      }
+      if (invoiceTo) {
+        filtered = filtered.filter(inv => inv.invoiceNumber <= invoiceTo);
+      }
+
+      renderInvoices(filtered);
+    });
+
+    // Initial render
+    renderInvoices(mockSentInvoices);
+  </script>
+</body>
+</html>
