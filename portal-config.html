@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>إعدادات بوابة الفاتورة الإلكترونية</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6 bg-gray-50">
+  <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8">
+    <header class="mb-8 border-b border-gray-300 pb-4 text-right">
+      <h1 class="text-2xl font-bold text-gray-800">إعدادات بوابة الفاتورة الإلكترونية</h1>
+      <p class="text-gray-600 mt-1">أدخل بيانات الممول وبيانات الاتصال بالبوابة</p>
+    </header>
+
+    <form id="configForm" class="space-y-6" autocomplete="off">
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-6 text-right">
+        <div>
+          <label for="clientId" class="block mb-1 font-semibold text-gray-700">معرف العميل (Client ID)</label>
+          <input
+            type="text"
+            id="clientId"
+            name="clientId"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="clientSecret" class="block mb-1 font-semibold text-gray-700">المفتاح السري 1 (Client Secret 1)</label>
+          <input
+            type="text"
+            id="clientSecret"
+            name="clientSecret"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="clientSecret2" class="block mb-1 font-semibold text-gray-700">المفتاح السري 2 (Client Secret 2)</label>
+          <input
+            type="text"
+            id="clientSecret2"
+            name="clientSecret2"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="taxpayerName" class="block mb-1 font-semibold text-gray-700">اسم الممول</label>
+          <input
+            type="text"
+            id="taxpayerName"
+            name="taxpayerName"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="taxpayerRegistration" class="block mb-1 font-semibold text-gray-700">رقم التسجيل الضريبي</label>
+          <input
+            type="text"
+            id="taxpayerRegistration"
+            name="taxpayerRegistration"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="taxpayerAddress" class="block mb-1 font-semibold text-gray-700">عنوان الممول</label>
+          <input
+            type="text"
+            id="taxpayerAddress"
+            name="taxpayerAddress"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+      </section>
+
+      <section class="mt-6 text-right">
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
+        >
+          حفظ الإعدادات
+        </button>
+      </section>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('configForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      // TODO: Save config via API call
+      alert('تم حفظ الإعدادات (تجريبي)');
+    });
+  </script>
+</body>
+</html>
