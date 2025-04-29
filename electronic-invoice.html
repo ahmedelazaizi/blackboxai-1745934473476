@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>نموذج إصدار الفاتورة الإلكترونية</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6 bg-gray-50">
+  <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-8">
+    <header class="mb-8 border-b border-gray-300 pb-4">
+      <div class="flex flex-col space-y-1 text-right">
+        <div class="text-lg font-bold text-gray-800">اسم الشركة</div>
+        <div class="text-sm text-gray-600">رقم التسجيل الضريبي: 123456789</div>
+        <div class="text-sm text-gray-600">عنوان الشركة: شارع المثال، المدينة، الدولة</div>
+      </div>
+    </header>
+
+    <form class="space-y-6" autocomplete="off">
+      <!-- Invoice Info -->
+      <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <label for="invoiceNumber" class="block mb-1 font-semibold text-gray-700">رقم الفاتورة</label>
+          <input
+            type="text"
+            id="invoiceNumber"
+            name="invoiceNumber"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="12345"
+            required
+          />
+        </div>
+        <div>
+          <label for="invoiceDate" class="block mb-1 font-semibold text-gray-700">تاريخ الفاتورة</label>
+          <input
+            type="date"
+            id="invoiceDate"
+            name="invoiceDate"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="taxRegistration" class="block mb-1 font-semibold text-gray-700">رقم التسجيل الضريبي / الرقم القومي</label>
+          <input
+            type="text"
+            id="taxRegistration"
+            name="taxRegistration"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="رقم التسجيل الضريبي أو الرقم القومي"
+            required
+          />
+        </div>
+        <div>
+          <label for="customerName" class="block mb-1 font-semibold text-gray-700">اسم العميل</label>
+          <input
+            type="text"
+            id="customerName"
+            name="customerName"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="اسم العميل"
+            required
+          />
+        </div>
+      </section>
+      <section class="grid grid-cols-1 md:grid-cols-1 gap-6">
+        <div>
+          <label for="customerAddress" class="block mb-1 font-semibold text-gray-700">عنوان العميل</label>
+          <input
+            type="text"
+            id="customerAddress"
+            name="customerAddress"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="عنوان العميل"
+            required
+          />
+        </div>
+      </section>
+
+      <!-- Document Type Selection -->
+      <section>
+        <fieldset class="border border-gray-300 rounded-md p-4">
+          <legend class="font-semibold text-gray-700 mb-2">نوع المستند</legend>
+          <div class="flex flex-wrap gap-4">
+            <label class="inline-flex items-center space-x-2 rtl:space-x-reverse cursor-pointer">
+              <input type="radio" name="documentType" value="invoice" checked class="form-radio text-blue-600" />
+              <span>فاتورة</span>
+            </label>
+            <label class="inline-flex items-center space-x-2 rtl:space-x-reverse cursor-pointer">
+              <input type="radio" name="documentType" value="creditNote" class="form-radio text-blue-600" />
+              <span>اشعار دائن</span>
+            </label>
+            <label class="inline-flex items-center space-x-2 rtl:space-x-reverse cursor-pointer">
+              <input type="radio" name="documentType" value="debitNote" class="form-radio text-blue-600" />
+              <span>اشعار مدين</span>
+            </label>
+            <label class="inline-flex items-center space-x-2 rtl:space-x-reverse cursor-pointer">
+              <input type="radio" name="documentType" value="purchase" class="form-radio text-blue-600" />
+              <span>مشتريات</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Items Table -->
+      <section>
+        <table class="w-full border border-gray-300 rounded-md overflow-hidden">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="p-3 border border-gray-300 text-center">كود المنتج</th>
+              <th class="p-3 border border-gray-300 text-center">الوصف</th>
+              <th class="p-3 border border-gray-300 text-center">الكمية</th>
+              <th class="p-3 border border-gray-300 text-center">سعر الوحدة</th>
+              <th class="p-3 border border-gray-300 text-center">الإجمالي</th>
+              <th class="p-3 border border-gray-300 text-center">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="itemsBody">
+            <tr class="item-row">
+              <td class="p-3 border border-gray-300">
+                <input
+                  type="text"
+                  name="itemCode[]"
+                  class="w-full border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="كود المنتج"
+                  required
+                />
+              </td>
+              <td class="p-3 border border-gray-300">
+                <input
+                  type="text"
+                  name="itemDescription[]"
+                  class="w-full border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="وصف المنتج أو الخدمة"
+                  required
+                />
+              </td>
+              <td class="p-3 border border-gray-300">
+                <input
+                  type="number"
+                  name="itemQuantity[]"
+                  min="1"
+                  class="w-full border border-gray-300 rounded-md p-1 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 item-quantity"
+                  value="1"
+                  required
+                />
+              </td>
+              <td class="p-3 border border-gray-300">
+                <input
+                  type="number"
+                  name="itemUnitPrice[]"
+                  min="0"
+                  step="0.01"
+                  class="w-full border border-gray-300 rounded-md p-1 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 item-unit-price"
+                  placeholder="0.00"
+                  required
+                />
+              </td>
+              <td class="p-3 border border-gray-300 text-center font-semibold item-total">
+                0.00
+              </td>
+              <td class="p-3 border border-gray-300 text-center">
+                <button type="button" class="text-red-600 hover:text-red-800 remove-item" title="حذف الصنف">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mt-2 text-right">
+          <button type="button" id="addItemBtn" class="inline-flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition" title="إضافة صنف جديد">
+            <i class="fas fa-plus"></i> إضافة صنف
+          </button>
+        </div>
+      </section>
+
+      <!-- Totals Section -->
+      <section class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-700">
+        <div>
+          <label for="taxRate" class="block mb-1 font-semibold">نسبة الضريبة (%)</label>
+          <input
+            type="number"
+            id="taxRate"
+            name="taxRate"
+            min="0"
+            max="100"
+            step="0.01"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="0.00"
+            value="0"
+          />
+        </div>
+        <div>
+          <label for="taxAmount" class="block mb-1 font-semibold">قيمة الضريبة</label>
+          <input
+            type="number"
+            id="taxAmount"
+            name="taxAmount"
+            min="0"
+            step="0.01"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="0.00"
+            readonly
+          />
+        </div>
+        <div>
+          <label for="finalTotal" class="block mb-1 font-semibold">الإجمالي النهائي</label>
+          <input
+            type="number"
+            id="finalTotal"
+            name="finalTotal"
+            min="0"
+            step="0.01"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="0.00"
+            readonly
+          />
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <section class="mt-8 flex flex-wrap gap-4 justify-center">
+        <button
+          type="button"
+          class="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition"
+          title="إرسال الفاتورة"
+        >
+          <i class="fas fa-paper-plane"></i> إرسال
+        </button>
+        <button
+          type="button"
+          class="flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition"
+          title="حفظ المستند"
+        >
+          <i class="fas fa-save"></i> حفظ
+        </button>
+        <button
+          type="button"
+          class="flex items-center gap-2 bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 transition"
+          title="معاينة المستند"
+        >
+          <i class="fas fa-eye"></i> معاينة
+        </button>
+        <button
+          type="button"
+          class="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition"
+          title="اعتماد المستند"
+        >
+          <i class="fas fa-check"></i> اعتماد
+        </button>
+      </section>
+    </form>
+  </div>
+
+  <script>
+    function calculateTotals() {
+      const rows = document.querySelectorAll('.item-row');
+      let subtotal = 0;
+
+      rows.forEach(row => {
+        const qtyInput = row.querySelector('.item-quantity');
+        const priceInput = row.querySelector('.item-unit-price');
+        const totalCell = row.querySelector('.item-total');
+
+        const qty = parseFloat(qtyInput.value) || 0;
+        const price = parseFloat(priceInput.value) || 0;
+        const total = qty * price;
+
+        totalCell.textContent = total.toFixed(2);
+        subtotal += total;
+      });
+
+      const taxRateInput = document.getElementById('taxRate');
+      const taxAmountInput = document.getElementById('taxAmount');
+      const finalTotalInput = document.getElementById('finalTotal');
+
+      const taxRate = parseFloat(taxRateInput.value) || 0;
+      const taxAmount = (subtotal * taxRate) / 100;
+      const finalTotal = subtotal + taxAmount;
+
+      taxAmountInput.value = taxAmount.toFixed(2);
+      finalTotalInput.value = finalTotal.toFixed(2);
+    }
+
+    document.addEventListener('input', event => {
+      if (
+        event.target.classList.contains('item-quantity') ||
+        event.target.classList.contains('item-unit-price') ||
+        event.target.id === 'taxRate'
+      ) {
+        calculateTotals();
+      }
+    });
+
+    document.getElementById('addItemBtn').addEventListener('click', () => {
+      const itemsBody = document.getElementById('itemsBody');
+      const firstRow = itemsBody.querySelector('.item-row');
+      const newRow = firstRow.cloneNode(true);
+
+      // Clear input values in the cloned row
+      newRow.querySelectorAll('input').forEach(input => {
+        if (input.type === 'number') {
+          input.value = input.name === 'itemQuantity[]' ? '1' : '';
+        } else {
+          input.value = '';
+        }
+      });
+
+      itemsBody.appendChild(newRow);
+      calculateTotals();
+    });
+
+    document.getElementById('itemsBody').addEventListener('click', event => {
+      if (event.target.closest('.remove-item')) {
+        const rows = document.querySelectorAll('.item-row');
+        if (rows.length > 1) {
+          event.target.closest('.item-row').remove();
+          calculateTotals();
+        } else {
+          alert('يجب أن تحتوي الفاتورة على صنف واحد على الأقل.');
+        }
+      }
+    });
+
+    // Initial calculation on page load
+    calculateTotals();
+  </script>
+</body>
+</html>
